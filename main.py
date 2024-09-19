@@ -143,6 +143,9 @@ class MainWindow(QMainWindow):
         else:
             self.main_timer.stop()
             self.main_timer_label.setText("00:00")
+            self.red_team_status.setText("等<br>待<br>中")
+            self.blue_team_status.setText("等<br>待<br>中")
+            self.game_status.setText("比赛结束")
         
     def __init__(self):
         super().__init__()
