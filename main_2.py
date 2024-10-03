@@ -17,20 +17,20 @@ class MainWindow(QMainWindow):
         
         self.main_timer = QTimer(self)
         self.main_timer.timeout.connect(self.update)
-        self.main_time_left = 420
-        self.fangdai = 420
+        self.main_time_left = 360
+        self.fangdai = 360
         self.fangdai_lock = 0
         self.red_team_flag = 0
         self.blue_team_flag = 0
         
         self.main_timer_label = QLabel(self)
-        self.main_timer_label.setText("07:00")
-        self.main_timer_label.setStyleSheet("QLabel{font-size:" + str(int(self.screen_width/1920 * 150 + self.screen_height/1080 * 150)) + "px; \
+        self.main_timer_label.setText("6:00")
+        self.main_timer_label.setStyleSheet("QLabel{font-size:" + str(int(self.screen_width/1920 * 180 + self.screen_height/1080 * 180)) + "px; \
                                                     font-weight:bold; \
                                                     font-family:Microsoft YaHei; \
                                                     color: white;}")
         self.main_timer_label.setAlignment(Qt.AlignCenter)
-        self.main_timer_label.setGeometry(int(self.screen_width * 0.15), int(self.screen_height * 0.25),
+        self.main_timer_label.setGeometry(int(self.screen_width * 0.15), int(self.screen_height * 0.3),
                                           int(self.screen_width * 0.7), int(self.screen_height * 0.4))
         
         self.start_game = QPushButton(self)
@@ -96,21 +96,23 @@ class MainWindow(QMainWindow):
         
     def blue_team_clicked(self):
         self.blue_team_flag = 1 - self.blue_team_flag
-        if self.blue_team_flag == 1:
-            pixmap = QPixmap("assets/Team_Status_Error.png")
-            self.blue_team_status.setPixmap(pixmap)
-        else:
-            pixmap = QPixmap("assets/Team_State_Normal.png")
-            self.blue_team_status.setPixmap(pixmap)
+        if self.fangdai_lock == 1:
+            if self.blue_team_flag == 1:
+                pixmap = QPixmap("assets/Team_Status_Error.png")
+                self.blue_team_status.setPixmap(pixmap)
+            else:
+                pixmap = QPixmap("assets/Team_State_Normal.png")
+                self.blue_team_status.setPixmap(pixmap)
         
     def red_team_clicked(self):
         self.red_team_flag = 1 - self.red_team_flag
-        if self.red_team_flag == 1:
-            pixmap = QPixmap("assets/Team_Status_Error.png")
-            self.red_team_status.setPixmap(pixmap)
-        else:
-            pixmap = QPixmap("assets/Team_State_Normal.png")
-            self.red_team_status.setPixmap(pixmap)
+        if self.fangdai_lock == 1:
+            if self.red_team_flag == 1:
+                pixmap = QPixmap("assets/Team_Status_Error.png")
+                self.red_team_status.setPixmap(pixmap)
+            else:
+                pixmap = QPixmap("assets/Team_State_Normal.png")
+                self.red_team_status.setPixmap(pixmap)
         
     def start_game_clicked(self):
         self.fangdai_lock = 1
@@ -123,12 +125,12 @@ class MainWindow(QMainWindow):
         self.blue_team_status.setPixmap(pixmap_blue)
         
     def reset_clicked(self):
-        if self.main_time_left < 420:
+        if self.main_time_left < 360:
             self.fangdai = self.main_time_left
         self.fangdai_lock = 0
         self.main_timer.stop()
-        self.main_time_left = 420
-        self.main_timer_label.setText("07:00")
+        self.main_time_left = 360
+        self.main_timer_label.setText("6:00")
         pixmap = QPixmap("assets/Game_State_Wait.png")
         self.game_status.setPixmap(pixmap)
         pixmap = QPixmap("assets/Team_Status_Waiting.png")
@@ -141,10 +143,10 @@ class MainWindow(QMainWindow):
         if self.main_time_left >= 0:
             minutes = self.main_time_left // 60
             seconds = self.main_time_left % 60
-            self.main_timer_label.setText("{:02d}:{:02d}".format(minutes, seconds))
+            self.main_timer_label.setText("{:01d}:{:02d}".format(minutes, seconds))
         else:
             self.main_timer.stop()
-            self.main_timer_label.setText("00:00")
+            self.main_timer_label.setText("0:00")
             pixmap = QPixmap("assets/Team_Status_Waiting.png")
             self.red_team_status.setPixmap(pixmap)
             pixmap_blue = QPixmap("assets/Team_Status_Waiting.png")
